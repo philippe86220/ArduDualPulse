@@ -3,6 +3,8 @@
 </p>
 
 # ArduDualPulse
+[![Designed by GPT-5](https://img.shields.io/badge/Design-GPT--5-green?logo=openai)](https://github.com/philippe86220/ArduDualPulse)
+
 
 Run **two periodic callbacks on Timer0** while keeping the **Arduino core overflow (1024 µs)** intact for `millis()`, `micros()`, and `delay()`.
 
