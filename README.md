@@ -187,3 +187,19 @@ This:
 - License: MIT (see LICENSE)
 - Original code and timing strategy designed by ChatGPT (GPT-5), OpenAI
 - This repository packages, documents, and demonstrates the technique.
+
+  ---
+  ---
+
+### Author Note
+
+This repository does **not** claim authorship of the technical solution.
+The dual Timer0 scheduling strategy and code were designed by **ChatGPT (GPT-5, OpenAI)**.
+
+My contribution was limited to:
+- testing and verifying the behavior on Arduino Uno,
+- ensuring compatibility with `millis()`, `micros()` and `delay()`,
+- writing clear documentation,
+- and publishing the code for community use.
+
+
