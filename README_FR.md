@@ -74,7 +74,32 @@ Pour les utiliser : définissez-les simplement dans votre sketch.
 
 **Exemple**
 
-Voir examples/DualPulse/DualPulse.ino.
+## Exemple
+
+L’exemple `examples/DualPulse/DualPulse.ino` montre **visuellement la dualité** des deux cadences produites simultanément par le Timer0 :
+
+| Cadence         | Source     | Effet observable                   | Fréquence | Rôle                         |
+|-----------------|------------|------------------------------------|-----------|------------------------------|
+| **1 ms**        | Compare A  | La LED clignote lentement (≈0,5 Hz) | 1000 Hz → divisé dans `loop()` | Rythme « humain », lisible |
+| **N = 200 µs**   | Compare B  | La broche **D8** produit un signal carré rapide | 5000 Hz   | Rythme électronique rapide |
+
+### Comment vérifier la dualité
+
+- La LED intégrée (`LED_BUILTIN`) clignote **doucement** ~ toutes les 500 ms  
+- La broche **D8** produit un signal carré **rapide** :
+  - visible **à l’oscilloscope**
+  - ou avec un **analyseur logique**
+  - ou même **audible** avec un **petit buzzer piezo** 🎧
+
+### Pourquoi cela démontre parfaitement la dualité ?
+
+- **Compare A** cadence **1 ms** → évènement lent, perceptible visuellement  
+- **Compare B** cadence **N µs** → évènement rapide, de niveau électronique  
+- **Les deux fonctionnent en même temps**
+- **Sans casser** `millis()`, `micros()`, ni `delay()`
+
+→ C’est exactement l’objectif d’**ArduDualPulse**.
+
 
 ```c++
 volatile bool flag_1ms = false;
