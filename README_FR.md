@@ -110,6 +110,8 @@ Pour `N = 200 µs` → période = `400 µs` → fréquence ≈ `2500 Hz`.*
 <img src="docs/duality_waveform_dark.png" width="800">
 
 ```c++
+#include <ArduDualPulse.h>
+
 volatile bool flag_1ms = false;
 volatile bool flag_N   = false;
 
