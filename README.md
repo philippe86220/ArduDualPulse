@@ -60,7 +60,23 @@ void on_timer0_Nus(void);  // called every N us    (Compare B)
 
 ## Example
 
-See examples/DualPulse/DualPulse.ino.
+## Example
+
+The example `examples/DualPulse/DualPulse.ino` visually demonstrates the *dual scheduler* behavior:
+
+| Cadence       | Source     | Visible Effect                        | Frequency | Role                        |
+|---------------|------------|---------------------------------------|-----------|-----------------------------|
+| **1 ms**      | Compare A  | LED blinks slowly (approx 0.5 Hz)     | 1000 Hz → divided in `loop()` | Human-scale timing |
+| **N = 200 µs** | Compare B  | Fast square wave on D8                | 5000 Hz   | High-speed periodic event   |
+
+You can verify this with:
+
+- a **LED** on pin `LED_BUILTIN` (blinks every ~500ms)
+- a **scope / logic analyzer** on pin **D8**
+- or even a **piezo** on D8 → audible tone 🎧
+
+**This is the core purpose of ArduDualPulse:**  
+two periodic tasks, one slow and one fast, **running simultaneously**, without breaking `millis()`, `micros()`, or `delay()`.
 
 ```c
 volatile bool flag_1ms = false, flag_N = false;
