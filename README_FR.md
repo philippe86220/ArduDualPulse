@@ -103,6 +103,9 @@ Pour `N = 200 µs` → période = `400 µs` → fréquence ≈ `2500 Hz`.*
 
 → C’est exactement l’objectif d’**ArduDualPulse**.
 
+### Démonstration visuelle de la dualité (Compare A + Compare B)
+
+<img src="docs/duality_waveform_dark.png" width="800">
 
 ```c++
 volatile bool flag_1ms = false;
