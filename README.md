@@ -4,10 +4,10 @@
 
 # ArduDualPulse
 
-Run **two periodic callbacks on Timer0** while keeping the **Arduino core overflow (1024 us)** intact for `millis()`, `micros()`, and `delay()`.
+Run **two periodic callbacks on Timer0** while keeping the **Arduino core overflow (1024 µs)** intact for `millis()`, `micros()`, and `delay()`.
 
-- Compare **A**: fixed **1000 us** period
-- Compare **B**: configurable **N us** period (**20..1000**, step **4 us**)
+- Compare **A**: fixed **1000 µs** period
+- Compare **B**: configurable **N µs** period (**20..1000**, step **4 µs**)
 - Uses **relative scheduling** (`OCR0x += delta`) to avoid drift and handle modulo-256 wrap
 - **Does not** modify Timer0 prescaler or mode set by the Arduino core
 
@@ -18,7 +18,7 @@ Run **two periodic callbacks on Timer0** while keeping the **Arduino core overfl
 
 ## Why
 
-Timer0 is used by the Arduino core (overflow at **1024 us**) to power `millis()`, `micros()` and `delay()`.  
+Timer0 is used by the Arduino core (overflow at **1024 µs**) to power `millis()`, `micros()` and `delay()`.  
 ArduDualPulse adds **two additional periodic schedules** on the **compare units A and B** without breaking the overflow.
 
 ---
@@ -27,7 +27,7 @@ ArduDualPulse adds **two additional periodic schedules** on the **compare units 
 
 - Keeps `millis() / micros() / delay()` working normally
 - 1 ms periodic callback (Compare A)
-- N us periodic callback (Compare B), `N in [20..1000]` with `4 us` resolution
+- N µs periodic callback (Compare B), `N in [20..1000]` with `4 µs` resolution
 - Minimal, dependency-free, AVR @ 16 MHz (ATmega328P Uno/Nano)
 
 ---
