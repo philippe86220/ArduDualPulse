@@ -112,7 +112,9 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(8, OUTPUT);  // D8 will output the high-speed square wave
 
-  // Demonstration: N = 200 µs → ~5000 Hz on D8
+  // Demonstration: N = 200 µs → ~2500 Hz on D8
+ // (toggle at each Compare B → full period = 2 × N)
+
   timer0_dual_start(200);
 }
 
