@@ -84,6 +84,11 @@ You can verify this with:
 **This is the core purpose of ArduDualPulse:**  
 two periodic tasks, one slow and one fast, **running simultaneously**, without breaking `millis()`, `micros()`, or `delay()`.
 
+### Visual demonstration of the dual scheduling (Compare A + Compare B)
+
+<img src="docs/duality_waveform_dark.png" width="800">
+
+
 ```c++
 volatile bool flag_1ms = false;
 volatile bool flag_N   = false;
