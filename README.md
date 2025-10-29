@@ -92,6 +92,8 @@ two periodic tasks, one slow and one fast, **running simultaneously**, without b
 
 
 ```c++
+#include <ArduDualPulse.h>
+
 volatile bool flag_1ms = false;
 volatile bool flag_N   = false;
 
