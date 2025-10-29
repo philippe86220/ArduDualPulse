@@ -219,3 +219,19 @@ Résolution & Gigue
 - Licence : **MIT** (**voir LICENSE**)
 - Code et stratégie de synchronisation : **ChatGPT (GPT-5), OpenAI**
 - Le dépôt ne fait que l’**emballer** et le **documenter** pour usage communautaire.
+
+  ---
+  ---
+
+### Note de l’éditeur
+
+Ce dépôt ne revendique **pas** l’invention de la solution.
+La stratégie et le code de synchronisation duale sur Timer0 ont été conçus par **ChatGPT (GPT-5, OpenAI)**.
+
+Ma contribution s’est limitée à :
+- tester le comportement sur Arduino Uno,
+- vérifier la compatibilité avec `millis()`, `micros()` et `delay()`,
+- rédiger la documentation,
+- et publier la solution pour qu’elle soit accessible à la communauté.
+
+
