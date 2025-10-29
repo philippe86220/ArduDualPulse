@@ -78,21 +78,42 @@ You can verify this with:
 **This is the core purpose of ArduDualPulse:**  
 two periodic tasks, one slow and one fast, **running simultaneously**, without breaking `millis()`, `micros()`, or `delay()`.
 
-```c
-volatile bool flag_1ms = false, flag_N = false;
+```c++
+volatile bool flag_1ms = false;
+volatile bool flag_N   = false;
 
 void on_timer0_1ms(void) { flag_1ms = true; }
-void on_timer0_Nus(void) { flag_N = true; }
+void on_timer0_Nus(void) { flag_N   = true; }
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
-  timer0_dual_start(200); // N = 200 us (rounded to 4 us step)
+  pinMode(8, OUTPUT);  // D8 will output the high-speed square wave
+
+  // Demonstration: N = 200 µs → ~5000 Hz on D8
+  timer0_dual_start(200);
 }
 
 void loop() {
-  if (flag_1ms) { flag_1ms = false; /* 1ms task */ }
-  if (flag_N)   { flag_N   = false; /* N us task */ }
+  // ----- 1 ms event (Compare A) -----
+  if (flag_1ms) {
+    flag_1ms = false;
+
+    static uint16_t counter = 0;
+    if (++counter >= 500) {     // 500 × 1 ms = 500 ms
+      counter = 0;
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    }
+  }
+
+  // ----- N µs event (Compare B) -----
+  if (flag_N) {
+    flag_N = false;
+
+    // Toggle D8 in a single CPU cycle → clean square wave
+    PINB = _BV(PB0); // PB0 = D8 on Arduino Uno
+  }
 }
+
 ```
 
 **Design Notes**
