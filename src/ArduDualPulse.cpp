@@ -66,4 +66,3 @@ void timer0_dual_start(uint16_t N_us) {
 void timer0_dual_stop(void) {
   TIMSK0 &= (uint8_t)~(_BV(OCIE0A) | _BV(OCIE0B));
 }
-
