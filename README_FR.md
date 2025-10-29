@@ -110,23 +110,33 @@ void on_timer0_Nus(void) { flag_N   = true; }
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
-  timer0_dual_start(200); // N = 200 µs (arrondi 4 µs)
+  pinMode(8, OUTPUT);  // D8 will output the high-speed square wave
+
+  // Demonstration: N = 200 µs → ~5000 Hz on D8
+  timer0_dual_start(200);
 }
 
 void loop() {
+  // ----- 1 ms event (Compare A) -----
   if (flag_1ms) {
     flag_1ms = false;
-    // tâche périodique 1 ms
+
+    static uint16_t counter = 0;
+    if (++counter >= 500) {     // 500 × 1 ms = 500 ms
+      counter = 0;
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    }
   }
 
+  // ----- N µs event (Compare B) -----
   if (flag_N) {
     flag_N = false;
-    // tâche périodique N µs
-  }
 
-  // Votre code normal ici
-  // millis(), micros() et delay() fonctionnent toujours
+    // Toggle D8 in a single CPU cycle → clean square wave
+    PINB = _BV(PB0); // PB0 = D8 on Arduino Uno
+  }
 }
+
 ```
 
 **Notes de conception**
