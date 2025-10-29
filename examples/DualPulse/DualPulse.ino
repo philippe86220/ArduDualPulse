@@ -61,4 +61,5 @@ void loop() {
     // Toggle D8 en *1 cycle CPU* → fréquence très propre
     PINB = _BV(PB0);   // PB0 = D8 sur Arduino Uno/Nano
   }
+ }
 }
