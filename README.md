@@ -69,6 +69,11 @@ The example `examples/DualPulse/DualPulse.ino` visually demonstrates the *dual s
 | **1 ms**       | Compare A | LED blinks slowly (approx. 0.5 Hz)     | 1000 Hz → divided in `loop()`     | Human-scale timing       |
 | **N = 200 µs** | Compare B | Fast square wave on D8                 | ~**2500 Hz** *(f = 1 / (2·N))*    | High-speed periodic event |
 
+*Note: Compare B triggers a **toggle**, not a full waveform period.  
+The output completes **one full cycle every 2 × N**.  
+For **N = 200 µs** → period = **400 µs** → frequency ≈ **2500 Hz**.*
+
+
 
 You can verify this with:
 
