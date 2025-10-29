@@ -1,1 +1,7 @@
+ArduDualPulse	KEYWORD1
+timer0_dual_start	KEYWORD2
+timer0_dual_stop	KEYWORD2
+timer0_set_N_us	KEYWORD2
+on_timer0_1ms	KEYWORD2
+on_timer0_Nus	KEYWORD2
 
