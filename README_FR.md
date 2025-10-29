@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="https://dummyimage.com/1000x200/000/fff&text=ArduDualPulse" alt="ArduDualPulse banner" />
+</p>
+
+
 # ArduDualPulse
 
 Exécuter **deux callbacks périodiques sur le Timer0** tout en conservant l’**overflow système (1024 µs)** utilisé par `millis()`, `micros()` et `delay()`.
