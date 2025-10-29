@@ -78,10 +78,13 @@ Pour les utiliser : définissez-les simplement dans votre sketch.
 
 L’exemple `examples/DualPulse/DualPulse.ino` montre **visuellement la dualité** des deux cadences produites simultanément par le Timer0 :
 
-| Cadence         | Source     | Effet observable                   | Fréquence | Rôle                         |
-|-----------------|------------|------------------------------------|-----------|------------------------------|
-| **1 ms**        | Compare A  | La LED clignote lentement (≈0,5 Hz) | 1000 Hz → divisé dans `loop()` | Rythme « humain », lisible |
-| **N = 200 µs**   | Compare B  | La broche **D8** produit un signal carré rapide | 5000 Hz   | Rythme électronique rapide |
+| Cadence         | Source     | Effet observable                         | Fréquence                           | Rôle                        |
+|-----------------|------------|-------------------------------------------|--------------------------------------|-----------------------------|
+| **1 ms**        | Compare A  | La LED clignote lentement (~0,5 Hz)       | 1000 Hz → divisé dans `loop()`       | Rythme « humain »           |
+| **N = 200 µs**   | Compare B  | Signal carré rapide sur D8                | ~**2500 Hz** *(f = 1 / (2·N))*       | Événement périodique rapide |
+
+*Note : Compare B déclenche une alternance (toggle) → la période complète du signal vaut `2 × N`.
+Pour `N = 200 µs` → période = `400 µs` → fréquence ≈ `2500 Hz`.*
 
 ### Comment vérifier la dualité
 
