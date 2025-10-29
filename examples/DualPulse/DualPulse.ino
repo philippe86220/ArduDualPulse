@@ -22,41 +22,6 @@
         • ou détectable avec un analyseur logique
 */
 
-#include <ArduDualPulse.h>   // si installé comme bibliothèque (sinon inclure manuellement)
-
-// Variables signaux
-volatile bool flag_1ms = false;
-volatile bool flag_N   = false;
-
-void on_timer0_1ms(void) {
-  flag_1ms = true;
-}
-
-void on_timer0_Nus(void) {
-  // Toggle rapide en ISR → démonstration directe
-  PINB = _BV(PB0); // PB0 = D8 → toggle en 1 cycle
-}
-
-void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(8, OUTPUT);
-
-  // N = 200 µs → (arrondi multiple de 4 µs)
-  timer0_dual_start(200);
-}
-
-void loop() {
-  if (flag_1ms) {
-    flag_1ms = false;
-    static uint16_t cnt = 0;
-
-    if (++cnt >= 500) {      // 500 × 1 ms = 500 ms
-      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-      cnt = 0;
-    }
-  }
-}
-
 #include <ArduDualPulse.h>
 
 // Flags (schéma recommandé : ISR = pose drapeau → loop() = exécute)
