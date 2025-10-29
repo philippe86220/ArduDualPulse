@@ -64,10 +64,11 @@ void on_timer0_Nus(void);  // called every N us    (Compare B)
 
 The example `examples/DualPulse/DualPulse.ino` visually demonstrates the *dual scheduler* behavior:
 
-| Cadence       | Source     | Visible Effect                        | Frequency | Role                        |
-|---------------|------------|---------------------------------------|-----------|-----------------------------|
-| **1 ms**      | Compare A  | LED blinks slowly (approx 0.5 Hz)     | 1000 Hz → divided in `loop()` | Human-scale timing |
-| **N = 200 µs** | Compare B  | Fast square wave on D8                | 5000 Hz   | High-speed periodic event   |
+| Cadence        | Source    | Visible Effect                         | Frequency                         | Role                     |
+|----------------|-----------|----------------------------------------|-----------------------------------|--------------------------|
+| **1 ms**       | Compare A | LED blinks slowly (approx. 0.5 Hz)     | 1000 Hz → divided in `loop()`     | Human-scale timing       |
+| **N = 200 µs** | Compare B | Fast square wave on D8                 | ~**2500 Hz** *(f = 1 / (2·N))*    | High-speed periodic event |
+
 
 You can verify this with:
 
