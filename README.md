@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://dummyimage.com/1000x200/000/fff&text=ArduDualPulse" alt="ArduDualPulse banner" />
+</p>
+
 # ArduDualPulse
 
 Run **two periodic callbacks on Timer0** while keeping the **Arduino core overflow (1024 us)** intact for `millis()`, `micros()`, and `delay()`.
