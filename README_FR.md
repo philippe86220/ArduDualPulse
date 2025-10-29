@@ -141,6 +141,38 @@ Résolution & Gigue
 → Utiliser le ***schéma drapeau → traitement dans** ```loop()``` (comme dans l’exemple).
 
 ---
+## Limitations
+
+- **Timer0 resolution:** 1 tick = **4 µs** (16 MHz, prescaler=64). Periods are therefore quantized to multiples of 4 µs.
+- **Jitter:** Mainly due to **interrupt latency** (nested/disabled interrupts, other ISRs, Flash wait states). Keep ISRs **very short**.
+- **Do not block in ISRs:** Avoid `delay()`, blocking `Serial.print()`, I²C/SPI transactions that wait, etc. In an ISR the global interrupt flag is cleared (I=0), so core timekeeping may stall.
+- **Throughput:** With **N = 20 µs** you get **50 kHz** compare-B interrupts → extremely high CPU load. Use only ultra-short handlers (set a flag).
+- **Core compatibility:** This library assumes the **Arduino core’s Timer0 configuration** (Fast PWM, prescaler=64, 1024 µs overflow). If another library reconfigures Timer0, timing will be affected.
+
+## Troubleshooting
+
+- **`delay()` freezes / time drifts**  
+  Cause: `delay()` (and core timekeeping) needs Timer0 overflow interrupts, which are suspended while inside ISRs.  
+  Fix: **Never call `delay()` inside ISRs**. Use the **flag + `loop()`** pattern (see example).
+
+- **Visible jitter on 1 ms / N µs tasks**  
+  Cause: ISR latency (other interrupts, long handlers).  
+  Fix: Keep ISRs **as short as possible**, move work to `loop()`, avoid `Serial.print()` in ISRs, reduce N’s frequency if needed.
+
+- **`Serial.print()` behaves oddly inside callbacks**  
+  Cause: Printing can block and depends on interrupts.  
+  Fix: Do not print in ISRs. Accumulate data and print later in `loop()`.
+
+- **Another library breaks the timing**  
+  Cause: It reconfigures Timer0 (mode/prescaler).  
+  Fix: Restore Arduino core Timer0 settings or remove the conflicting library. This project **does not** modify Timer0 mode/prescaler by design.
+
+- **Need sub-microsecond stability**  
+  Note: Timer0 cannot deliver <4 µs resolution.  
+  Fix: Use **Timer1** with prescaler=1 in CTC mode (but that’s outside this library and may conflict with other code).
+
+
+---
 - Licence & Attribution
 - Licence : **MIT** (**voir LICENSE**)
 - Code et stratégie de synchronisation : **ChatGPT (GPT-5), OpenAI**
