@@ -143,34 +143,33 @@ Résolution & Gigue
 ---
 ## Limitations
 
-- **Timer0 resolution:** 1 tick = **4 µs** (16 MHz, prescaler=64). Periods are therefore quantized to multiples of 4 µs.
-- **Jitter:** Mainly due to **interrupt latency** (nested/disabled interrupts, other ISRs, Flash wait states). Keep ISRs **very short**.
-- **Do not block in ISRs:** Avoid `delay()`, blocking `Serial.print()`, I²C/SPI transactions that wait, etc. In an ISR the global interrupt flag is cleared (I=0), so core timekeeping may stall.
-- **Throughput:** With **N = 20 µs** you get **50 kHz** compare-B interrupts → extremely high CPU load. Use only ultra-short handlers (set a flag).
-- **Core compatibility:** This library assumes the **Arduino core’s Timer0 configuration** (Fast PWM, prescaler=64, 1024 µs overflow). If another library reconfigures Timer0, timing will be affected.
+- **Résolution Timer0 :** 1 tick = **4 µs** (16 MHz, prescaler=64). Les périodes sont donc quantifiées au multiple de 4 µs.
+- **Gigue :** Principalement due à la **latence d’interruption** (autres ISRs, sections critiques, accès Flash). Garder les ISRs **très courtes**.
+- **Pas de blocage en ISR :** Éviter `delay()`, `Serial.print()` bloquant, transactions I²C/SPI qui attendent, etc. En ISR, le drapeau global d’interruption est à 0 (I=0) → l’horloge système peut se figer.
+- **Débit :** Avec **N = 20 µs**, cela génère **50 kHz** d’interruptions en compare B → charge CPU très élevée. N’utiliser que des handlers ultra-courts (poser un drapeau).
+- **Compatibilité cœur Arduino :** La lib suppose la **configuration Timer0 du core** (Fast PWM, prescaler=64, overflow 1024 µs). Si une autre lib reconfigure Timer0, la synchronisation sera affectée.
 
-## Troubleshooting
+## Dépannage
 
-- **`delay()` freezes / time drifts**  
-  Cause: `delay()` (and core timekeeping) needs Timer0 overflow interrupts, which are suspended while inside ISRs.  
-  Fix: **Never call `delay()` inside ISRs**. Use the **flag + `loop()`** pattern (see example).
+- **`delay()` se fige / dérive temporelle**  
+  Cause : `delay()` (et l’horloge du core) nécessite l’overflow Timer0, suspendu en ISR.  
+  Solution : **Ne jamais appeler `delay()` en ISR**. Utiliser le schéma **drapeau + `loop()`** (voir l’exemple).
 
-- **Visible jitter on 1 ms / N µs tasks**  
-  Cause: ISR latency (other interrupts, long handlers).  
-  Fix: Keep ISRs **as short as possible**, move work to `loop()`, avoid `Serial.print()` in ISRs, reduce N’s frequency if needed.
+- **Gigue visible sur 1 ms / N µs**  
+  Cause : latence ISR (autres interruptions, handlers trop longs).  
+  Solution : Raccourcir **au maximum** les ISRs, déplacer le travail dans `loop()`, éviter `Serial.print()` en ISR, diminuer la fréquence de N si besoin.
 
-- **`Serial.print()` behaves oddly inside callbacks**  
-  Cause: Printing can block and depends on interrupts.  
-  Fix: Do not print in ISRs. Accumulate data and print later in `loop()`.
+- **`Serial.print()` instable dans les callbacks**  
+  Cause : impression potentiellement bloquante et dépendante des interruptions.  
+  Solution : Ne pas imprimer en ISR. Accumuler et imprimer plus tard dans `loop()`.
 
-- **Another library breaks the timing**  
-  Cause: It reconfigures Timer0 (mode/prescaler).  
-  Fix: Restore Arduino core Timer0 settings or remove the conflicting library. This project **does not** modify Timer0 mode/prescaler by design.
+- **Une autre bibliothèque casse le timing**  
+  Cause : reconfiguration de Timer0 (mode/prescaler).  
+  Solution : Restaurer la config du core Arduino ou retirer la bibliothèque en conflit. Ce projet **ne modifie pas** le mode/prescaler de Timer0.
 
-- **Need sub-microsecond stability**  
-  Note: Timer0 cannot deliver <4 µs resolution.  
-  Fix: Use **Timer1** with prescaler=1 in CTC mode (but that’s outside this library and may conflict with other code).
-
+- **Besoin de stabilité sub-microseconde**  
+  Remarque : Timer0 ne peut pas faire mieux que **4 µs** de résolution.  
+  Solution : Utiliser **Timer1** en mode CTC prescaler=1 (hors périmètre de cette lib et possible conflit avec d’autres codes).
 
 ---
 - Licence & Attribution
